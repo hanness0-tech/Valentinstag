@@ -3,103 +3,77 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Valentinsfrage 💘</title>
+<title>Kleine Frage</title>
 
 <style>
     body {
         margin: 0;
         min-height: 100vh;
-        background: linear-gradient(135deg, #ffb3c6, #ffe5ec);
+        background: #f7f7f7;
         display: flex;
         justify-content: center;
         align-items: center;
-        font-family: 'Comic Sans MS', cursive, sans-serif;
-        overflow: hidden;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
         padding: 20px;
     }
 
     .card {
         background: white;
-        padding: 30px 25px;
-        border-radius: 30px;
+        padding: 32px 28px;
+        border-radius: 18px;
         text-align: center;
-        box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         max-width: 420px;
         width: 100%;
-        animation: popIn 0.8s ease;
+        animation: fadeIn 0.6s ease;
     }
 
     h1 {
-        color: #ff477e;
-        font-size: 28px;
-        animation: wiggle 2s infinite;
+        font-size: 24px;
+        margin-bottom: 10px;
     }
 
     p {
-        font-size: 18px;
+        font-size: 17px;
+        color: #444;
     }
 
     .buttons {
-        margin-top: 20px;
+        margin-top: 25px;
         position: relative;
         height: 120px;
     }
 
     button {
-        font-size: 20px;
-        padding: 14px 28px;
+        font-size: 17px;
+        padding: 12px 26px;
+        border-radius: 25px;
         border: none;
-        border-radius: 35px;
         cursor: pointer;
-        transition: transform 0.2s;
         touch-action: manipulation;
     }
 
     .yes {
-        background: #ff4d6d;
+        background: #222;
         color: white;
-        animation: pulse 1.5s infinite;
     }
 
     .no {
-        background: #adb5bd;
-        color: white;
+        background: #e0e0e0;
+        color: #333;
         position: absolute;
         left: 50%;
         transform: translateX(-50%);
-        margin-top: 15px;
+        top: 60px;
     }
 
     button:active {
-        transform: scale(1.15);
+        transform: scale(0.96);
     }
 
-    @keyframes popIn {
-        0% { transform: scale(0); }
-        100% { transform: scale(1); }
-    }
-
-    @keyframes wiggle {
-        0%, 100% { transform: rotate(0deg); }
-        25% { transform: rotate(2deg); }
-        75% { transform: rotate(-2deg); }
-    }
-
-    @keyframes pulse {
-        0% { transform: scale(1); }
-        50% { transform: scale(1.1); }
-        100% { transform: scale(1); }
-    }
-
-    .heart {
-        position: absolute;
-        font-size: 24px;
-        animation: floatUp 5s linear infinite;
-    }
-
-    @keyframes floatUp {
-        0% { transform: translateY(100vh); opacity: 1; }
-        100% { transform: translateY(-10vh); opacity: 0; }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
     }
 </style>
 </head>
@@ -107,55 +81,50 @@
 <body>
 
 <div class="card">
-    <h1>💘 Achtung, wichtige Frage! 💘</h1>
-    <p>Du bist offiziell zu süß 🥺✨</p>
-    <p><strong>Willst du mein Valentinstags-Date sein? 🌹😍</strong></p>
+    <h1>Kurze Frage</h1>
+    <p>Ich dachte, ich frage einfach direkt:</p>
+    <p><strong>Hättest du Lust, mein Valentins-Date zu sein?</strong></p>
 
     <div class="buttons">
-        <button class="yes" onclick="yes()">JA 😍💖</button>
-        <button class="no" id="noBtn" ontouchstart="runAway()" onmouseover="runAway()">Nein 😜</button>
+        <button class="yes" onclick="yes()">Ja</button>
+        <button class="no" id="noBtn" onclick="noClick()">Nein</button>
     </div>
 </div>
 
-<!-- Sound -->
 <audio id="yesSound">
-    <source src="https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-beep-221.mp3" type="audio/mpeg">
+    <source src="https://assets.mixkit.co/sfx/preview/mixkit-soft-confirmation-tone-2866.mp3" type="audio/mpeg">
 </audio>
 
 <script>
+    let noClicks = 0;
+
     function yes() {
         document.getElementById("yesSound").play();
-
         document.body.innerHTML = `
         <div class="card">
-            <h1>🎉 JAAAAAA 🎉</h1>
-            <p>Beste Entscheidung EVER 😍</p>
-            <p>Ich freue mich riesig auf unser Date 💕🌹</p>
-            <p>Warnung: Lachen, Liebe & Snacks 🍕❤️</p>
+            <h1>Perfekt.</h1>
+            <p>Dann freue ich mich auf unser Date 🙂</p>
         </div>`;
     }
 
-    function runAway() {
+    function noClick() {
+        noClicks++;
         const btn = document.getElementById("noBtn");
-        const maxX = window.innerWidth - btn.offsetWidth;
-        const maxY = window.innerHeight - btn.offsetHeight;
 
-        btn.style.left = Math.random() * maxX + "px";
-        btn.style.top = Math.random() * maxY + "px";
+        if (noClicks < 3) {
+            const maxX = window.innerWidth - btn.offsetWidth - 20;
+            const maxY = window.innerHeight - btn.offsetHeight - 20;
+
+            btn.style.left = Math.random() * maxX + "px";
+            btn.style.top = Math.random() * maxY + "px";
+        } else {
+            document.body.innerHTML = `
+            <div class="card">
+                <h1>Fair enough.</h1>
+                <p>Fragen kostet ja nichts 🙂</p>
+            </div>`;
+        }
     }
-
-    function createHeart() {
-        const heart = document.createElement("div");
-        heart.className = "heart";
-        heart.textContent = "💖";
-        heart.style.left = Math.random() * 100 + "vw";
-        heart.style.animationDuration = (Math.random() * 3 + 3) + "s";
-        document.body.appendChild(heart);
-
-        setTimeout(() => heart.remove(), 5000);
-    }
-
-    setInterval(createHeart, 300);
 </script>
 
 </body>
